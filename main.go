@@ -128,7 +128,28 @@ func doneTask() {
 }
 
 func showAll() {
+	tasks := loadTasks()
+	
+	for _, v := range tasks {
+		id := strconv.Itoa(v.ID)
+		desc := v.Desc
+		cr := v.Create
+		up := v.Update
 
+		var st string
+		switch v.Status {
+			case 0: st = "Pending"
+			case 1: st = "On Progress"
+			case 2: st = "Done"
+		}
+
+		fmt.Println("ID Task: " + id)
+		fmt.Println("Description: " + desc)
+		fmt.Println("Status: " + st)
+		fmt.Println("Created at: " + cr)
+		fmt.Println("Updated at: " + up + "\n")
+		
+	}
 }
 
 func showDone() {
