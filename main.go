@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -61,7 +62,7 @@ func process(menu int) {
 }
 
 func addTask() {
-	
+
 }
 
 func editTask() {
@@ -93,5 +94,10 @@ func showNotDone() {
 }
 
 func close() {
+	println("Program closed.")
+	os.Exit(0)
+}
+
+func loadFile() {
 	
 }
