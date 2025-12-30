@@ -25,7 +25,7 @@ Before running this application, ensure you have installed:
 
 1.  **Clone Repository** (if using git) or download the source code.
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/hisyamssyr/Task-Tracker.git
     cd task-tracker
     ```
 
