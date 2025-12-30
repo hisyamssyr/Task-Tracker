@@ -1,20 +1,22 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
+	"time"
 )
 
-type task struct {
+type Task struct {
 	ID     int		`json:"id"`
 	Desc   string	`json:"desc"`
-	Status string	`json:"status"`
+	Status int		`json:"status"`
 	Create string	`json:"created_at"`
 	Update string	`json:"updated_at"`
 }
 
-const fileName = "tasks.json"
+const filename = "tasks.json"
 
 func main() {
 
@@ -27,6 +29,12 @@ func main() {
 		fmt.Scan(&choice)
 
 		process(choice)
+	}
+}
+
+func checkError(e error) {
+	if e != nil {
+		panic(e)
 	}
 }
 
@@ -59,6 +67,25 @@ func process(menu int) {
 	case 8: showNotDone()
 	case 9: close()
 	}
+}
+
+func loadTasks()([]Task) {
+	data, err := os.ReadFile(filename)
+	checkError(err)
+
+	var tasks []Task
+	err = json.Unmarshal(data, &tasks)
+	checkError(err)
+
+	return tasks
+}
+
+func saveFile(tasks []Task) {
+	data, err := json.MarshalIndent(tasks, "", " ")
+	checkError(err)
+
+	err = os.WriteFile(filename, data, 0644)
+	checkError(err)
 }
 
 func addTask() {
@@ -99,5 +126,5 @@ func close() {
 }
 
 func loadFile() {
-	
+
 }
