@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -17,6 +19,7 @@ type Task struct {
 }
 
 const filename = "tasks.json"
+var scanner = bufio.NewScanner(os.Stdin)
 
 func main() {
 
@@ -26,7 +29,9 @@ func main() {
 
 		var choice int
 		fmt.Println("Enter your choice (1 - 9): ")
-		fmt.Scan(&choice)
+		scanner.Scan()
+		choice, err := strconv.Atoi(scanner.Text())
+		checkError(err)
 
 		process(choice)
 	}
@@ -89,7 +94,25 @@ func saveFile(tasks []Task) {
 }
 
 func addTask() {
+	tasks := loadTasks()
+	var ts Task
 
+	fmt.Printf("Input task description: ")
+	scanner.Scan()
+	ts.Desc = scanner.Text()
+
+	if len(tasks) == 0 {
+		ts.ID = 1;
+	} else {
+		ts.ID = tasks[len(tasks) - 1].ID + 1
+	}
+
+	ts.Status = 0
+	ts.Create = time.Now().Format(time.RFC3339)
+	ts.Update = time.Now().Format(time.RFC3339)
+
+	tasks = append(tasks, ts)
+	saveFile(tasks)
 }
 
 func editTask() {
